@@ -15,8 +15,6 @@ function fixLocalPackages(path = process.cwd()) {
         try {
           removeDependency(key);
         } catch (e) {}
-        addDevDependency(path, false);
-        fixedDependencies.push({ key, path, isDev: true });
       });
   if (dependencies)
     Object.entries(dependencies)
@@ -25,6 +23,18 @@ function fixLocalPackages(path = process.cwd()) {
         try {
           removeDependency(key);
         } catch (e) {}
+      });
+  if (devDependencies)
+    Object.entries(devDependencies)
+      .filter(([, path]) => path.startsWith(".") || path.startsWith("/"))
+      .forEach(([key, path]) => {
+        addDevDependency(path, false);
+        fixedDependencies.push({ key, path, isDev: true });
+      });
+  if (dependencies)
+    Object.entries(dependencies)
+      .filter(([, path]) => path.startsWith(".") || path.startsWith("/"))
+      .forEach(([key, path]) => {
         addDependency(path, false);
         fixedDependencies.push({ key, path, isDev: false });
       });
