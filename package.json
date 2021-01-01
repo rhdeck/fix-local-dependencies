@@ -23,6 +23,7 @@
   },
   "homepage": "https://github.com/rhdeck/fix-local-dependencies#readme",
   "dependencies": {
+    "rimraf": "^3.0.2",
     "yarnif": "^1.5.0"
   },
   "bin": "./fixLocalPackages.js"
