@@ -4,13 +4,16 @@ const { spawnSync } = require("child_process");
 const { join } = require("path");
 const { useYarn } = require("yarnif");
 const rimraf = require("rimraf");
+const { existsSync } = require("fs");
 if (useYarn()) {
   const { stdout } = spawnSync("yarn", ["cache", "dir"], { encoding: "utf-8" });
   const cacheDir = stdout.toString().trim();
   if (cacheDir) {
     const tmp = join(cacheDir, ".tmp");
-    rimraf.sync(tmp);
-    console.log("Removed all yarn cache contents from ", tmp);
+    if (existsSync(tmp)) {
+      rimraf.sync(tmp);
+      console.log("Removed all yarn cache contents from ", tmp);
+    } else console.log("No temp dir at path", tmp);
   } else {
     console.error("No results from yarn cache dir");
   }
