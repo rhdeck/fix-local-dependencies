@@ -6,7 +6,7 @@ const { useYarn } = require("yarnif");
 const rimraf = require("rimraf");
 if (useYarn()) {
   const { stdout } = spawnSync("yarn", ["cache", "dir"]);
-  const cacheDir = stdout;
+  const cacheDir = stdout.toString();
   if (cacheDir) {
     const tmp = join(cacheDir, ".tmp");
     rimraf.sync(tmp);
